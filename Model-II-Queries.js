@@ -2,16 +2,22 @@
 // Query I: Query to find a string in the "Text" field in combined collection
 //
 var start = new Date().getTime();
-db.Second.find({"value.Tweets.Text":/good/},{UserID:1}).pretty()
+db.Second.find({$text:{$search:"good"}},{UserID:1}).pretty()
 var end = new Date().getTime();
 var time = end - start;
-print('Execution time to find the text: ' + time+' msec');
+print('Execution time to find an existing text: ' + time+' msec');
+
+var start = new Date().getTime();
+db.Second.find({$text:{$search:"adfafda"}},{UserID:1}).pretty()
+var end = new Date().getTime();
+var time = end - start;
+print('Execution time to find a non-existent text: ' + time+' msec');
 
 //
 // Query II:
 // Return cumulated retweet counts of all tweets, each of which has at 
 // least one hashtag.
-
+    
 var start = new Date().getTime();
 db.Second.aggregate([
     {$unwind:'$value.Tweets'},
@@ -32,7 +38,7 @@ if(time>1000){
 // names of the followers
 //
 var start = new Date().getTime();
-var userID=db.Second.find({},{_id:1}).sort({"value.FriendCount":-1}).limit(1)
+var userID=db.Second.find({},{_id:1}).sort({"value.FollowerCount":-1}).limit(1)
 while (userID.hasNext()){
     var follUserID=db.Second.find({_id:userID.next()._id},{"value.Friends":1,_id:0})
     while(follUserID.hasNext()){

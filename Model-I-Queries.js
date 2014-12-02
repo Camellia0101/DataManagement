@@ -2,10 +2,16 @@
 // Query I: Query to find a string in the "Text" field in "tweets" collection
 //
 var start = new Date().getTime();
-db.tweets.find({Text:/ good/},{ID:1,UserID:1,_id:0})
+db.tweets.find({$text:{$search:"good"}},{ID:1,UserID:1,_id:0})
 var end = new Date().getTime();
 var time = end - start;
-print('Execution time to find the text: ' + time+' msec');
+print('Execution time to find an existing text: ' + time+' msec');
+
+var start = new Date().getTime();
+db.tweets.find({$text:{$search:"adfafda"}},{ID:1,UserID:1,_id:0})
+var end = new Date().getTime();
+var time = end - start;
+print('Execution time to find a non-existent text: ' + time+' msec');
 
 //
 // Query II:
