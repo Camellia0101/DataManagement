@@ -40,9 +40,9 @@ if(time>1000){
 var start = new Date().getTime();
 var userID=db.Second.find({},{_id:1}).sort({"value.FollowerCount":-1}).limit(1)
 while (userID.hasNext()){
-    var follUserID=db.Second.find({_id:userID.next()._id},{"value.Friends":1,_id:0})
+    var follUserID=db.Second.find({_id:userID.next()._id},{"value.Followers":1,_id:0})
     while(follUserID.hasNext()){
-        var followers=follUserID.next().value.Friends;
+        var followers=follUserID.next().value.Followers;
         db.Second.find({_id : { $in: followers}},{"value.UserName":1, _id:0})
     }
 }
