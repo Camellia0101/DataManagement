@@ -38,7 +38,7 @@ var userID=db.users.find({},{user_id:1,_id:0}).sort({follower_count:-1}).limit(1
 while (userID.hasNext()){
     var follUserID = db.network.find({userid1:userID.next().user_id},{userid2:1,_id:0})
     while (follUserID.hasNext()){
-        db.users.find({user_id : follUserID.next().userid2},{user_name :1,_id:0}).forEach(printjson)
+        db.users.find({user_id : follUserID.next().userid2},{user_name :1,_id:0})
     }
 }
 var end = new Date().getTime();
